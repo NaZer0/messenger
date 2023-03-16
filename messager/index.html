@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                background-color: rgb(100, 100, 100);
+                margin: 0;
+                /* overflow: hidden; */
+            }
+            .chat{
+                display: grid;
+                grid-template-columns: 75px 0px 1725px;
+                background: linear-gradient(
+                    90deg,
+                    rgba(0,0,0,1) 0%, 
+                    rgba(0,0,0,0) 50%, 
+                    rgb(0,0,0,1) 100%
+                    ),
+                    url("image/space.jpg") no-repeat;
+                background-size: 1800px 100%;
+                background-position-x: center;
+                color: white;
+                margin: 0;
+                width: 100vw;
+                height: 100vh;
+            }
+            .main-field{
+                position: fixed;
+                display: grid;
+                width: 75px;
+                height: 225px;
+            }
+            .main-field div{
+                display: none;
+                height: 75px;
+                text-align: center;
+                cursor: pointer;
+            }
+            #profile{
+                display: none;
+            }
+            #FAG{
+                display: none;
+            }
+            #help{
+                display: none;
+            }
+            .pop-up-panel{
+                margin-left: 75px;
+                opacity: 0;
+                width: 0px;
+                /* background-color: wheat; */
+            }
+            .pop-up-panel input{
+                margin-top: 30px;
+                border: 0;
+                width: 320px;
+                height: 50px;
+                border-radius: 40px;
+                padding-left: 10px;
+                padding-right: 10px;
+                background: url("image/space.jpg");
+                color: rgb(161, 0, 126);
+                font-size: 1.2rem;
+                text-shadow: 2px 3px 5px rgba(255, 0, 0, 0.5);
+            }
+            .pop-up-panel input::placeholder{
+                background-color: rgb(0, 0, 0, 0);
+                color:rgba(255, 0, 170, 0.5);
+                user-select: none;
+            }
+            .pop-up-panel input:focus{
+                outline: none;
+            }
+            .message{
+                height: 100%;
+                width: 100%;
+            }
+            .message-field{
+                height: 80%;
+            }
+            .message-text{
+                border-radius: 25px;
+            }
+            .message-text button{
+                width: 50px;
+                height: 50px;
+                cursor: pointer;
+                position: absolute;
+                margin: 25px;
+            }
+            #text{
+                height: 40px;
+                width: auto;
+                padding: 30px;
+                padding-left: 50px;
+                padding-right: 50px;
+                font-size: 1.3em;
+                background-color: rgba(0,0,0,0);
+                resize: none;
+                border: none;
+                color: white;
+                border-radius: 25px 0px 0px 25px;
+            }
+            #text::-webkit-scrollbar{
+                width: 10px;
+            }
+            #text::-webkit-scrollbar-track{
+                background: rgb(255, 255, 255);
+                border-radius: 10px;
+            }
+            #text::-webkit-scrollbar-thumb{
+                background: rgb(161, 0, 126);
+            }
+            #text::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+            #text:focus{
+                outline: none;
+            }
+            .Login{ 
+                position: fixed;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                height: 100vh;
+                width: 100vw;
+                background: linear-gradient(90deg,
+                    rgba(0,0,0,1) 0%,
+                    rgba(0,0,0,0) 50%,
+                    rgba(0,0,0,1) 100%),
+                    url("image/space.jpg") no-repeat;
+                background-size: 100% 100%;
+                z-index: 1;
+            }
+            #close-button{
+                position: fixed;
+                right: 5px;
+                margin-top: 10px;
+                width: 40px;
+                height: 40px;
+                cursor: pointer;
+                background: white;
+            }
+            #newProfile{
+                position: fixed;
+                width: 100vw;
+                height: 100vh;
+                /* background-color: rgba(0,0,0,0.5); */
+                background: radial-gradient(closest-side, rgba(0,0,0,0.7), rgba(0,0,0,0.4), rgba(0,0,0,0));
+                z-index: 3;
+            }
+            #reg-panel{
+                position: fixed;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
+                width: 300px;
+                height: 300px;
+            }
+            #reg-panel div{
+                color: white;
+                font-size: 1.5rem;
+                margin-top: 10px;
+            }
+            #reg-panel input{
+                border: none;
+                width: 280px;
+                padding: 10px;
+                height: 30px;
+                font-size: 1.5rem;
+            }
+            #reg-panel input:focus{
+                outline: 0;
+            }
+            #reg-panel button{
+                cursor: pointer;
+                border: none;
+                margin-right: 5px;
+                margin-left: 5px;
+                margin-top: 20px;
+                width: 140px;
+                height: 50px;
+            }
+
+            .messages{
+                transform: translateY(40em);
+                margin-top: 25px;
+                margin-left: 100px;
+                padding-left: 10px;
+                display: grid;
+                background-color: rgba(70, 60, 240, 0.1);
+                grid-template-columns: 150px 1fr;
+            }
+            .message_user{
+                width: 300px;
+            }
+            .messages_text{
+                margin-top: 10px;
+                grid-column-start: 1;
+                grid-column-end: 3;
+            }
+        </style>
+        <script>
+/*____________________________________________________________________________________________________________________________________________________________________________*/
+            let session;    
+            try { session = document.cookie.match(/session=(.+?)(;|$)/)[1]; }
+            catch { session = "0"; }
+
+            //session = "1";
+            //console.log(session);
+
+            window.onload = function (){
+                let groups = document.getElementById("groups");
+                let contacts = document.getElementById("contacts");
+                let profile = document.getElementById("profile");
+                let FAG = document.getElementById("FAG");
+                let help = document.getElementById("help");
+                let settings = document.getElementById("settings");
+                let exit = document.getElementById("exit");
+
+                profile.style.display = "block";
+                FAG.style.display = "block";
+                help.style.display = "block";
+                if(session == '0'){
+                    document.getElementsByClassName('main-field')[0].style.height = 75 * 3 + "px";
+                    document.getElementsByClassName("message")[0].style.display = "none";
+                }
+                else{
+                    InHtmlJson();
+                    //Запрос раз в 5 секунд
+                    setInterval(() => {
+                        document.getElementsByClassName('message-field')[0].innerHTML = ""; //Отчистка поля перед заполнением
+                        InHtmlJson();
+                    },5000);
+                    document.getElementsByClassName('main-field')[0].style.height = 75 + "%";
+                    groups.style.display = "block";
+                    contacts.style.display = "block";
+                    exit.style.display = "block";
+                    settings.style.display = "block";
+                }
+                resizeMessageBlock();
+                
+                //Отправка сообщений на сервер (Требуется далнейшая проверка)
+                async function createMessange(text) {
+                    const response = await fetch("api/CreateMessage", {
+                    method: "POST",
+                    headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        Text: text
+                    })
+                    });
+                }
+
+                document.getElementById("send_message").addEventListener("click", () =>  createMessange(document.getElementById("text").value));
+
+                contacts.addEventListener("click",() => {menuPage(1)}, false);
+                groups.addEventListener("click",() => {menuPage(2)}, false);
+                profile.addEventListener("click",() => {menuPage(3)}, false);
+                FAG.addEventListener("click",() => {menuPage(4)}, false);
+                help.addEventListener("click",() => {menuPage(5)}, false);
+                settings.addEventListener("click",() => {menuPage(6)}, false);
+                exit.addEventListener("click",() => {menuPage(7)}, false);
+                //Проверка на количество символов
+                document.getElementById('text').onfocus = function(){
+                    //Запрет на ввод новых символов
+                    let lastInput = null;
+                    document.getElementById('text').onkeydown = function(){
+                        if(
+                            event.code != "Backspace" &&
+                            event.code != "Delete" &&
+                            event.code != "ArrowDown" &&
+                            event.code != "ArrowUp" &&
+                            event.code != "ArrowRight" &&
+                            event.code != "ArrowLeft"
+                        ){//Коды манипуляций с текстом
+                            if(
+                                event.code != "ControlLeft" &&
+                                event.code != "ControlRight" &&
+                                event.code != "AltLeft" &&
+                                event.code != "AltRight" &&
+                                event.code != "ShiftLeft" &&
+                                event.code != "ShiftRight" &&
+                                lastInput != "ControlLeft" && event.code != "KeyA" &&
+                                lastInput != "ControlRight" && event.code != "KeyA" &&
+                                lastInput != "ControlLeft" && event.code != "KeyC" &&
+                                lastInput != "ControlRight" && event.code != "KeyC"
+                            ){//Коды изменения текста
+                                let textValue = document.getElementById('text').value;
+                                if(textValue.length > 526){
+                                    blockColor();
+                                    return false; //Запрет на ввод символов
+                                }
+                            }
+                        }
+                        lastInput = event.code;
+                    }
+                    //Запрет на копирование текста
+                    document.getElementById('text').oninput = () =>{
+                        let textValue = document.getElementById('text').value;
+                        if(textValue.length > 512){
+                            let valueQuest = "";
+                            blockColor();
+                            for(i = 0; i <= 512; i++){
+                                valueQuest += textValue[i];
+                            }
+                            document.getElementById('text').value = valueQuest;
+                        }
+                    }
+                }
+            }
+
+            let timeRange = null;
+            //Покраска поля в красный при возникновении ошибки
+            function blockColor(){
+                document.getElementById('text').style.background = "rgba(128,0,0,1)";
+                if(timeRange){
+                    clearInterval(timeRange);
+                }
+                let opacity = 1;
+                timeRange = setInterval(()=>{
+                    document.getElementById('text').style.background = "rgba(128,0,0," + opacity + ")";
+                    opacity -= 0.1;
+                    if(opacity <= 0){
+                        document.getElementById('text').style.background = null;
+                        clearInterval(timeRange);
+                    }
+                }, 50);
+
+            }
+
+            let timer = null; //Отслеживание таймера
+
+            //Изменения размеров для блоков
+            window.onresize = function(){
+                if(timer){
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(() => {
+                    resizeMessageBlock();
+                }, 15);
+            }
+
+            //Длина поля для сообщений
+            function resizeMessageBlock(){
+                document.getElementsByClassName('message')[0].style.width = 
+                    window.innerWidth - 
+                    document.getElementsByClassName('main-field')[0].offsetWidth - 
+                    document.getElementsByClassName("pop-up-panel")[0].offsetWidth +
+                    "px";
+                document.getElementById("text").style.width = 
+                    document.getElementsByClassName('message')[0].offsetWidth -
+                    (parseInt(blockstyle()) * 2) -
+                    document.getElementById('send_message').offsetWidth * 2 +
+                    "px";
+                document.getElementsByClassName("message")[0].style.marginLeft = 
+                    document.getElementsByClassName('pop-up-panel')[0].offsetWidth +
+                    "px";
+                document.getElementsByClassName('message-field')[0].style.width = 
+                    document.getElementsByClassName('message')[0].offsetWidth;
+            }
+
+            //Получение длины стиля padding-right для блока message
+            function blockstyle(){
+                let help = getComputedStyle(document.getElementById("text"));
+                return help.paddingRight;
+            }
+
+            //Удаление окна для логина
+            function delMenuPage(){
+                if(document.getElementsByClassName('Login')[0])
+                {
+                    let loginPage = document.getElementsByClassName("Login")[0];
+                    loginPage.remove();
+                }
+            }
+
+            //Взаимодействие с кнопками панели
+            function menuPage(num){
+                let popUpPanel = document.getElementsByClassName('pop-up-panel')[0];
+                switch(num)
+                {
+                    case 1:
+                        emergePanel(num);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        if(session == '0' && !document.getElementsByClassName('Login')[0]){
+                            let proff = document.createElement("div");
+                            proff.className = "Login";
+                            document.body.append(proff);
+                            document.getElementsByClassName('Login')[0].innerHTML = 
+                            "<div id='close-button'></div>" + 
+
+                            "<div id='reg-panel'>" +
+                            "<div>Имя пользователя</div>" +
+                            "<input id='UserName' placeholder='Ваш ник...'>" +
+                            "<div>Пароль</div>" +
+                            "<input id='PassWord' type='password' placeholder='Пароль...'>" +
+                            "<button id='login' class='input'>Войти</button>"+
+                            "<button id='register' class='registation'>Регистрация</button>" +
+                            "</div>";
+                            let menuCloseButton = document.getElementById('close-button');
+                            menuCloseButton.addEventListener("click", delMenuPage);
+
+                            async function loginUser(userName, password) {
+
+                                const response = await fetch("api/LoginUser", {
+                                method: "POST",
+                                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    Name: userName,
+                                    Password: password
+                                })
+                                });
+                            }
+
+                            async function createUser(userName, password) {
+                            const response = await fetch( "api/RegisterUser", {
+                                method: "POST",
+                                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    Name: userName,
+                                    Password: password
+                                })
+                                });
+                            }
+
+                            document.getElementById("login").addEventListener("click", () =>  loginUser(document.getElementById("UserName").value, document.getElementById("PassWord").value));
+                            document.getElementById("register").addEventListener("click", () =>  createUser(document.getElementById("UserName").value, document.getElementById("PassWord").value));
+                            }
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        GetMessange(5);
+                        break;
+                    case 7:
+                        //Выход из аккаунта
+                        async function Logout() {
+                        const response = await fetch( "api/Logout", {
+                            method: "GET",
+                            headers: { "Accept": "application/json", "Content-Type": "application/json" }
+                            });
+                        }
+
+                        document.getElementById("exit").addEventListener("click", () =>  Logout());
+                    default:
+                        console.error(console.trace() + " line error");
+                }
+            }
+
+            let timerEmergence = null;
+            let lastClick = null;
+
+            //Анимация появления боковой панели
+            function emergePanel(num){
+                let panel = document.getElementsByClassName('pop-up-panel')[0];
+                let opp = 0;
+                if(lastClick == num){
+                    lastClick = 0;
+                    clearInterval(timerEmergence);
+                    panel.style.width = "300px";
+                    let length = 300;
+                    timerEmergence = setInterval(() => {
+                        length -= 5;
+                        panel.style.opacity = 1 - opp;
+                        opp += 1/20;
+                        panel.style.width = length + "px";
+                        resizeMessageBlock();
+                        if(length <= 0){
+                            panel.style.opacity = "0";
+                            lastClick = null;
+                            clearInterval(timerEmergence);
+                        }
+                    }, 20);
+                    //При повторном нажатии мнгновенно пояется полностью и закрывается
+                }
+                else{
+                    if(lastClick != 0){
+                        lastClick = num;
+                        panel.style.opacity = "0";
+                        let length = 0;
+                        timerEmergence = setInterval(() => {
+                            panel.style.opacity = opp;
+                            opp += 1/60;
+                            length += 5;
+                            panel.style.width = length + "px";
+                            resizeMessageBlock();
+                            if(length >= 300){
+                                panel.style.opacity = "1";
+                                clearInterval(timerEmergence);
+                            }
+                        }, 20);
+                    }
+                }
+            }
+
+            //Вывод сообщений на сайт
+            async function InHtmlJson() {
+
+                let json = GetMessange(20);
+                
+                console.log(json);
+
+                let proff = document.createElement("div");
+                proff.className = "messages";
+
+                for (var i = 0; i < json.counters.length; i++) {
+                    
+                    var counter = json.counters[json.counters.length - i]; //Вывод от самых старых, к более новым
+
+                    document.getElementsByClassName('message-field')[0].append(proff);     
+                    document.getElementsByClassName('messages')[i].innerHTML(
+                        "<div class='messages_user'>" + counter.name + "</div>"+
+                        "<div class='messages_text'>" + counter.text + "</div>"+
+                        "<div class='messages_time'>" + counter.time + "</div>"
+                        );
+                           
+                }
+            }
+            //Получение информации для заполнения переменной json
+            async function GetMessange(number) {
+                const response = await fetch( "api/GetMessage", {
+                    method: "POST",
+                    headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        numberMessage: number
+                    })
+                });
+                return response.json();
+            }
+/*____________________________________________________________________________________________________________________________________________________________________________*/ 
+        </script>
+       <title>Тайный Ням-Ням</title>
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="chat">
+            <div class="main-field">
+                <div id="contacts" title="Контакты">Друзья</div>
+                <div id="groups" title="Группы">Группы</div>
+                <div id="profile" title="Профиль">Профиль</div>
+                <div id="FAG" title="FAG">FAG</div>
+                <div id="help" title="Помощь">Помощь</div>
+                <div id="settings" title="Настройки">Настройки</div> <!--С надеждой на чей-нибудь миссклик-->
+                <div id="exit" title="Выход">Выход</div>
+            </div>
+            <div class="pop-up-panel">
+                <input type="text" placeholder="Ввод...">
+            </div>
+            <div class="message">
+                <div class="message-field"> 
+                    <!-- <div class="messages">
+                        <div class='messages_user'>koll</div>
+                        <div class='messages_time'>NOW</div>
+                        <div class='messages_text'>Hello mortal world! AND HFGD SAJHFGDSH JFGKSJDHGFSD</div>
+                    </div>
+                    <div class="messages">
+                        <div class='messages_user'>koll</div>
+                        <div class='messages_time'>NOW</div>
+                        <div class='messages_text'>Hello mortal world! AND HFGD SAJHFGDSH JFGKSJDHGFSD</div>
+                    </div> -->
+                </div> <!--Будет заполняться из JSON файла-->
+                <div class="message-text">
+                    <textarea id="text" placeholder="Ввод"></textarea>
+                    <button id="send_message">-></button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,15 @@
+C:\Users\nazer\Desktop\project\messager 2\messager\DataBase\bin\Debug\net6.0\DataBase.deps.json
+C:\Users\nazer\Desktop\project\messager 2\messager\DataBase\bin\Debug\net6.0\DataBase.dll
+C:\Users\nazer\Desktop\project\messager 2\messager\DataBase\bin\Debug\net6.0\DataBase.pdb
+C:\Users\nazer\Desktop\project\messager 2\messager\DataBase\bin\Debug\net6.0\Domain.dll
+C:\Users\nazer\Desktop\project\messager 2\messager\DataBase\bin\Debug\net6.0\Domain.pdb
+C:\Users\nazer\Desktop\project\messager 2\messager\DataBase\obj\Debug\net6.0\DataBase.csproj.AssemblyReference.cache
+C:\Users\nazer\Desktop\project\messager 2\messager\DataBase\obj\Debug\net6.0\DataBase.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nazer\Desktop\project\messager 2\messager\DataBase\obj\Debug\net6.0\DataBase.AssemblyInfoInputs.cache
+C:\Users\nazer\Desktop\project\messager 2\messager\DataBase\obj\Debug\net6.0\DataBase.AssemblyInfo.cs
+C:\Users\nazer\Desktop\project\messager 2\messager\DataBase\obj\Debug\net6.0\DataBase.csproj.CoreCompileInputs.cache
+C:\Users\nazer\Desktop\project\messager 2\messager\DataBase\obj\Debug\net6.0\DataBase.csproj.CopyComplete
+C:\Users\nazer\Desktop\project\messager 2\messager\DataBase\obj\Debug\net6.0\DataBase.dll
+C:\Users\nazer\Desktop\project\messager 2\messager\DataBase\obj\Debug\net6.0\refint\DataBase.dll
+C:\Users\nazer\Desktop\project\messager 2\messager\DataBase\obj\Debug\net6.0\DataBase.pdb
+C:\Users\nazer\Desktop\project\messager 2\messager\DataBase\obj\Debug\net6.0\ref\DataBase.dll

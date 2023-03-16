@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="DataBase">
+      <HintPath>..\..\DataBase\bin\Debug\net6.0\DataBase.dll</HintPath>
+    </Reference>
+    <Reference Include="Domain">
+      <HintPath>..\..\Domain\bin\Debug\net6.0\Domain.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
