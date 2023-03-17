@@ -2,6 +2,7 @@
 using Messenger.DataBase;
 using System.Reflection;
 using System.Xml.Linq;
+using System.Linq;
 
 namespace Messenger.Application.Messnge.Commands
 {
@@ -10,16 +11,21 @@ namespace Messenger.Application.Messnge.Commands
         public static bool CreateMessnge(string session, string text)
         {
             //Create new messange
-            //Get User
-            string? name = DataBase.MsDataBase.GetUserName(session);
 
-            //Create messange
-            Messang mess = new Messang(name, DateTime.Now, text);
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                Domain.User? user = db.Users.SingleOrDefault(p => (p.session == Int32.Parse(session)));
 
-            //Other save Data Base
-            bool result = DataBase.MsDataBase.CreateNewMessage(mess);
+                if (user != null)
+                {
+                    Messang messang = new Messang(Guid.NewGuid().GetHashCode(), user.Name, DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc), text);
+                    db.Messangs.Add(messang);
+                    db.SaveChanges();
 
-            return result;
+                    return true;
+                }
+                else return false;
+            }
         }
 
         
@@ -27,20 +33,34 @@ namespace Messenger.Application.Messnge.Commands
         {
             //Get messanges
 
-            //Other save Data Base
-            List <Messang> messangs = DataBase.MsDataBase.GetMessage(number);
+            List<Messang> messang = new List<Messang>();
 
-            return messangs;
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                messang = (from mes in db.Messangs
+                          orderby mes.Time
+                          select mes).Reverse().Take(number).ToList();
+
+            }
+            return messang;
         }
 
         public static List<Messang> GetMessanges(DateTime time)
         {
             //Get messanges
 
-            //Other save Data Base
-            List<Messang> messangs = DataBase.MsDataBase.GetMessage(time);
+            List<Messang> messang = new List<Messang>();
 
-            return messangs;
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                messang = (from mes in db.Messangs
+                           where mes.Time > DateTime.SpecifyKind(time, DateTimeKind.Utc)
+                           orderby mes.Time
+                           select mes).Reverse().ToList();
+
+            }
+
+            return messang;
         }
     }
 }

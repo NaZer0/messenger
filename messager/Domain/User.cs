@@ -1,13 +1,22 @@
-﻿namespace Messenger.Domain
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Messenger.Domain
 {
     public class User
     {
-        public string Name {get;set;}
-        public string Password {get;set;}
-        public int? session { get;set;}
+        [Required]
+        public int Id { get; set; }
+        [Required]
+        [MaxLength(100)]
+        public string Name { get; set; }
+        [Required]
+        [MaxLength(100)]
+        public string Password { get; set; }
+        public int? session { get; set;}
     
-        public User (string name, string password)
+        public User (int id ,string name, string password)
         {
+            Id = id;
             Name = name;
             Password = password;
         }

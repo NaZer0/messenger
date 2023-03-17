@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="DataBase">
       <HintPath>..\..\DataBase\bin\Debug\net6.0\DataBase.dll</HintPath>
     </Reference>

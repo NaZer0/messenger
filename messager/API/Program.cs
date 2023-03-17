@@ -26,14 +26,14 @@ app.UseSwagger(x => x.SerializeAsV2 = true);
 
 app.MapPost("/api/registeruser", (string login, string passwrd) =>
 {
-    User user = new User(login, passwrd);
+    User user = new User(Guid.NewGuid().GetHashCode(), login, passwrd);
     bool other = Messenger.Application.User.Commands.UserCommand.CreateUser(user);
-    return other ? new Text("Create") : new Text("invalid username or password");
+    return other ? new Text("Create") : new Text("not a unique name");
 });
 
 app.MapPost("/api/loginuser", (string login, string passwrd) =>
 {
-    User user = new User(login, passwrd);
+    User user = new User(Guid.NewGuid().GetHashCode(), login, passwrd);
     int? session = Messenger.Application.User.Commands.UserCommand.LoginUser(user);
     return session != null ? new Text(session.ToString()) : new Text("invalid username or password");
 });
@@ -42,7 +42,7 @@ app.MapPost("/api/createmessage", (string session, string text) =>
 {
     //!!!возможность создать сообщение несуществующему пользователю 
     bool other = Messenger.Application.Messnge.Commands.MessangeCommand.CreateMessnge(session, text);
-    return session != null ? new Text("true") : new Text("false");
+    return other ? new Text("true") : new Text("false");
 });
 
 app.MapGet("/api/getmessangetime", (DateTime time) =>
@@ -50,6 +50,7 @@ app.MapGet("/api/getmessangetime", (DateTime time) =>
     List<Messang> mess = Messenger.Application.Messnge.Commands.MessangeCommand.GetMessanges(time);
     return mess;
 });
+
 
 app.MapGet("/api/getmessangenumber", (int number) =>
 {

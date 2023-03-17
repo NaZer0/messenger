@@ -1,6 +1,8 @@
 ﻿using Messenger.Domain;
 using Messenger.DataBase;
 using System.Xml.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Messenger.Application.User.Commands
 {
@@ -9,24 +11,39 @@ namespace Messenger.Application.User.Commands
         public static bool CreateUser(Domain.User user)
         {
             //Create new user
+            //!!!Проверка на уникальность имени
 
-            //Check unique name
-            if (DataBase.MsDataBase.UniqueName(user.Name))
+            using (ApplicationContext db = new ApplicationContext())
             {
-                //Other save Data Base
-                bool result = DataBase.MsDataBase.CreateUser(user);
-
-                return result;
+                if (db.Users.SingleOrDefault(p => (p.Name == user.Name)) == null)
+                {
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                    return true;
+                }
+                else return false;
             }
-            else { return false; }
         }
         public static int? LoginUser(Domain.User user)
         {
             //Login User
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                Domain.User userdb = db.Users.SingleOrDefault(p => (p.Name == user.Name) && (p.Password == user.Password));
 
-            int? session = DataBase.MsDataBase.LoginUser(user);
+                if (userdb != null) 
+                {
+                    db.Remove(userdb);
+                    db.SaveChanges();
+                    userdb.session = Guid.NewGuid().GetHashCode();
+                    db.Add(userdb);
+                    db.SaveChanges();
 
-            return session;
+                    return userdb.session;
+                }
+
+                return null;
+            }
         }
         
     }

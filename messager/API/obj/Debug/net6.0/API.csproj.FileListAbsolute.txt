@@ -36,3 +36,17 @@ C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\Applicat
 C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\DataBase.dll
 C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\Application.pdb
 C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\DataBase.pdb
+C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\Microsoft.Extensions.Logging.dll
+C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
+C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\Npgsql.dll
+C:\Users\nazer\Desktop\project\messager 2\messager\API\bin\Debug\net6.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
